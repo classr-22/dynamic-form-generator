@@ -53,6 +53,26 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({ schema }) => {
                 </option>
               ))}
             </select>
+          ) : field.type === "radio" ? (
+            field.options?.map((option) => (
+              <div key={option.value}>
+                <input
+                  type="radio"
+                  name={field.id}
+                  value={option.value}
+                  onChange={formik.handleChange}
+                  checked={formik.values[field.id] === option.value}
+                />
+                {option.label}
+              </div>
+            ))
+          ) : field.type === "textarea" ? (
+            <textarea
+              name={field.id}
+              placeholder={field.placeholder}
+              onChange={formik.handleChange}
+              value={formik.values[field.id]}
+            />
           ) : (
             <input
               name={field.id}
