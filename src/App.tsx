@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import JSONEditor from "./components/JsonEditor";
+import FormGenerator from "./components/FormGenerator";
+import { FormSchema } from "./types/JsonSchema";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [jsonValue, setJsonValue] = useState<string>(`{
+  "formTitle": "Sample Form",
+  "formDescription": "Fill out the fields below.",
+  "fields": [
+    { "id": "name", "type": "text", "label": "Name", "required": true, "placeholder": "Enter your name" }
+  ]
+}`);
+  const [schema, setSchema] = useState<FormSchema | null>(JSON.parse(jsonValue));
+  const [error, setError] = useState<string | null>(null);
+
+  const handleJsonChange = (value: string) => {
+    setJsonValue(value);
+    try {
+      setSchema(JSON.parse(value));
+      setError(null);
+    } catch (e) {
+      setError("Invalid JSON");
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <div className="editor-pane">
+        <JSONEditor jsonValue={jsonValue} onChange={handleJsonChange} error={error} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="form-pane">
+        {schema && !error ? (
+          <FormGenerator schema={schema} />
+        ) : (
+          <p className="error-text">Fix JSON errors to preview the form.</p>
+        )}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;

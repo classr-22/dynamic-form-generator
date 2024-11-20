@@ -1,12 +1,19 @@
-export interface Field {
-    name: string;
+export interface FormField {
+    id: string;
+    type: string;
     label: string;
-    type: "text" | "email" | "password" | "number" | "checkbox";
-    required?: boolean;
+    required: boolean;
+    placeholder?: string;
+    options?: { value: string; label: string }[];
+    validation?: {
+      pattern: string;
+      message: string;
+    };
   }
   
-  export interface JsonSchema {
-    title: string;
-    fields: Field[];
+  export interface FormSchema {
+    formTitle: string;
+    formDescription: string;
+    fields: FormField[];
   }
   
