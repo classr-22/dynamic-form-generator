@@ -5,7 +5,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import FormGenerator from '../../components/FormGenerator';  
 
 test('displays error message for invalid JSON schema', () => {
-  const invalidSchema = null; // Simulating invalid JSON schema
+  const invalidSchema = null; 
   const formData = {};
   const formErrors = {};
 
@@ -24,7 +24,7 @@ test('displays error message for invalid JSON schema', () => {
     />
   );
 
-  // Expect the error message to appear on screen
+ 
   expect(screen.getByText('Invalid JSON schema. Please fix the input.')).toBeInTheDocument();
 });
 
