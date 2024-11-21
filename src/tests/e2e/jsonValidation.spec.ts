@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('displays error for invalid JSON schema', async ({ page }) => {
     await page.goto('http://localhost:5173');
   
-    const invalidSchema = '{"formTitle": "Test Form", "fields": [{"id": "name", "type": "text"}]}'; // Invalid schema
+    const invalidSchema = '{"formTitle": "Test Form", "fields": [{"id": "name", "type": "text"}]}'; 
     await page.locator('#jsonEditor').fill(invalidSchema);
   
    
@@ -52,7 +52,7 @@ test('displays error for invalid JSON schema', async ({ page }) => {
       await page.fill('input#name', 'John Doe');
       await page.fill('input#email', 'john.doe@example.com');
       await page.selectOption('select#companySize', { label: '51-200 employees' });
-      await page.click('input#industry-tech'); // Select the "Technology" radio button
+      await page.click('input#industry-tech'); 
       await page.selectOption('select#timeline', { label: 'Immediate (within 1 month)' });
       await page.fill('textarea#comments', 'Looking forward to the project.');
   
@@ -120,30 +120,6 @@ test('displays error for invalid JSON schema', async ({ page }) => {
   });
   
 
-
-
-
-  test.describe('Form Validation and Submission', () => {
-  
-   
-    test.beforeEach(async ({ page }) => {
-      await page.goto('http://localhost:5173'); // Change this if your app runs on a different URL
-    });
-  
-  
-  });
-  
-
-
-
-
-
-
-
-
-
- 
-
   test('should show an error message when the JSON schema is invalid', async ({ page }) => {
     
     await page.goto('http://localhost:5173'); 
@@ -158,3 +134,5 @@ test('displays error for invalid JSON schema', async ({ page }) => {
     await expect(errorMessage).toHaveText('Invalid JSON schema. Please fix the input.');
   });
   
+
+

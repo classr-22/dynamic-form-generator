@@ -16,17 +16,17 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   formErrors,
   handleFieldChange,
   validateForm,
-  handleSubmit
+  handleSubmit,
 }) => {
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
     
-    // Validate the form before submitting
     if (validateForm()) {
-      // Log form data to the console
+     
       console.log('Form Data Submitted:', formData);
 
-      // Call the original handleSubmit function to handle further form submission logic
+      
       handleSubmit(event);
     }
   };
@@ -34,10 +34,19 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   const renderForm = () => {
     if (!formSchema) return <p id="json-error">Invalid JSON schema. Please fix the input.</p>;
 
+    const hasErrors = Object.keys(formErrors).length > 0;
+
     return (
-      <form onSubmit={handleFormSubmit} className="space-y-6">
+      <form onSubmit={handleFormSubmit} className="space-y-6" role="form">
         <h1 className="text-3xl font-bold mb-4">{formSchema.formTitle}</h1>
         <p className="text-lg mb-6">{formSchema.formDescription}</p>
+        
+        {hasErrors && (
+          <div className="text-red-500 text-sm">
+            Please fix the errors above.
+          </div>
+        )}
+
         {formSchema.fields.map((field) => {
           const { id, type, label, required, placeholder, options } = field;
           const error = formErrors[id];
@@ -48,7 +57,9 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
             case 'number':
               return (
                 <div key={id} className="space-y-2">
-                  <label htmlFor={id} className="block text-sm font-medium">{label}{required && ' *'}</label>
+                  <label htmlFor={id} className="block text-sm font-medium">
+                    {label} {required && '*'}
+                  </label>
                   <input
                     id={id}
                     type={type}
@@ -63,7 +74,9 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
             case 'textarea':
               return (
                 <div key={id} className="space-y-2">
-                  <label htmlFor={id} className="block text-sm font-medium">{label}{required && ' *'}</label>
+                  <label htmlFor={id} className="block text-sm font-medium">
+                    {label} {required && '*'}
+                  </label>
                   <textarea
                     id={id}
                     value={formData[id]}
@@ -77,16 +90,22 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
             case 'select':
               return (
                 <div key={id} className="space-y-2">
-                  <label htmlFor={id} className="block text-sm font-medium">{label}{required && ' *'}</label>
+                  <label htmlFor={id} className="block text-sm font-medium">
+                    {label} {required && '*'}
+                  </label>
                   <select
                     id={id}
                     value={formData[id]}
                     onChange={(e) => handleFieldChange(id, e.target.value)}
                     className={`w-full p-3 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                   >
-                    <option value="" disabled>Select an option</option>
+                    <option value="" disabled>
+                      Select an option
+                    </option>
                     {options?.map((option) => (
-                      <option key={option.value} value={option.value}>{option.label}</option>
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
                     ))}
                   </select>
                   {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -95,7 +114,9 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
             case 'radio':
               return (
                 <div key={id} className="space-y-2">
-                  <label className="block text-sm font-medium">{label}{required && ' *'}</label>
+                  <label className="block text-sm font-medium">
+                    {label} {required && '*'}
+                  </label>
                   {options?.map((option) => (
                     <div key={option.value} className="flex items-center space-x-2">
                       <input
@@ -107,7 +128,9 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
                         onChange={(e) => handleFieldChange(id, e.target.value)}
                         className="focus:ring-2 focus:ring-blue-500"
                       />
-                      <label htmlFor={`${id}-${option.value}`} className="text-sm">{option.label}</label>
+                      <label htmlFor={`${id}-${option.value}`} className="text-sm">
+                        {option.label}
+                      </label>
                     </div>
                   ))}
                   {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -117,6 +140,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
               return null;
           }
         })}
+
         <button
           type="submit"
           className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
