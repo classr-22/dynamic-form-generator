@@ -10,6 +10,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({ jsonInput, handleInputChange })
     <div className="flex-1 p-4">
       
       <textarea
+        id="jsonEditor"
         value={jsonInput}
         onChange={handleInputChange}
         rows={20}

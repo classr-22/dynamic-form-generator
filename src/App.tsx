@@ -11,6 +11,7 @@ const App: React.FC = () => {
     fields: [
       {
         id: "name",
+        name: "name",
         type: "text",
         label: "Full Name",
         required: true,
@@ -18,6 +19,7 @@ const App: React.FC = () => {
       },
       {
         id: "email",
+        name: "email",
         type: "email",
         label: "Email Address",
         required: true,

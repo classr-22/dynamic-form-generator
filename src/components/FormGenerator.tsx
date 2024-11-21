@@ -32,7 +32,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
   };
 
   const renderForm = () => {
-    if (!formSchema) return <p>Invalid JSON schema. Please fix the input.</p>;
+    if (!formSchema) return <p id="json-error">Invalid JSON schema. Please fix the input.</p>;
 
     return (
       <form onSubmit={handleFormSubmit} className="space-y-6">
